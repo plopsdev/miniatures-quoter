@@ -22,6 +22,9 @@ class TestController extends AbstractController
      * @Route("/", name="home")
      */
     public function home() {
-        return $this->render('test/home.html.twig'); //prendre le fichier twig et l'afficher
+        return $this->render('test/home.html.twig', [
+            'title' => "Bienvenue ici",
+            'age' => 14
+        ]); //prendre le fichier twig et l'afficher
     }
 }
