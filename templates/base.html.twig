@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="stylesheet" href="">
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
@@ -14,6 +15,17 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav>
+            <ul>
+                <li><a href="/">Home</li>
+                <li><a href="/ask-a-quote">Demander un devis</li>
+                <li><a href="/gallery">Gallerie</li> 
+                <li><a href="/about">A propos</li>
+            </ul>
+        </nav>
+        <div class="body">
+            {% block body %}{% endblock %}
+        </div>
+        
     </body>
 </html>
