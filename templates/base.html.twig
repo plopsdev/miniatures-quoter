@@ -16,13 +16,16 @@
     </head>
     <body>
         <nav>
-            <ul>
-                <li><a href="/">Home</li>
-                <li><a href="/ask-a-quote">Demander un devis</li>
-                <li><a href="/gallery">Gallerie</li> 
-                <li><a href="/about">A propos</li>
-            </ul>
+            <div>
+                <ul>
+                    <li><a href="{{ path('home') }}">Home</a></li> 
+                    <li><a href="{{ path('ask_a_quote_user_form') }}">Demander un devis</a></li> 
+                    <li><a href="{{ path('gallery') }}">Gallerie</a></li>  
+                    <li><a href="{{ path('about') }}">A propos</a></li>
+                </ul>
+            </div>
         </nav>
+        
         <div class="body">
             {% block body %}{% endblock %}
         </div>

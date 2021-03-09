@@ -20,13 +20,13 @@ class Quotes
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=users::class, inversedBy="quotes", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Users::class, inversedBy="quotes", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=states::class, cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=States::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $state;
@@ -47,13 +47,13 @@ class Quotes
     private $colorScheme;
 
     /**
-     * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="quote", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="quote")
      */
     private $miniaturesGroups;
 
     public function __construct()
     {
-        $this->miniaturesGroups = new ArrayCollection();
+        $this->miniaturesGroups = new ArrayCollection(); //tableau +++
     }
 
     public function getId(): ?int

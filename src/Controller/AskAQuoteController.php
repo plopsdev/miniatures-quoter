@@ -2,19 +2,89 @@
 
 namespace App\Controller;
 
+use App\Entity\Quotes;
+use App\Entity\Users;
+use App\Entity\States;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use App\Form\Type\QuoteType;
+use App\Form\Type\UserType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class AskAQuoteController extends AbstractController
 {
+    
     /**
-     * @Route("/ask-a-quote", name="ask_a_quote")
+     * @Route("/ask-a-quote/user-form", name="ask_a_quote_user_form")
      */
-    public function index(): Response
+    public function newUser(Request $request): Response
     {
-        return $this->render('ask_a_quote/index.html.twig', [
-            'controller_name' => 'AskAQuoteController',
+        $user = new Users();
+        $user_form = $this->createForm(UserType::class, $user);
+        $user_form->handleRequest($request);
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if($user_form->isSubmitted() && $user_form->isValid()) {
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('ask_a_quote_quote_form', ['user_id' => $user->getId()]); // ce qui est passé dans l'url
+        }
+
+        return $this->render('ask_a_quote/user_form.html.twig', [
+            'userForm' => $user_form->createView()
         ]);
     }
+    
+    /**
+     * @Route("/ask-a-quote/quote-form/{user_id}", name="ask_a_quote_quote_form")
+     */
+    public function newQuote(Request $request, $user_id): Response
+    {   
+        $quote = new Quotes();
+        $state_id_waiting = 1; //correspond à l'idée du state "waiting" -> à reformater différemment
+        
+        $quote_form = $this->createForm(QuoteType::class, $quote);
+        
+        $quote_form->handleRequest($request);
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(Users::class)->find($user_id); //récupère l'user grâce à l'ID passée par l'action précédente (plus haute)
+        $waiting_state = $entityManager->getRepository(States::class)->find($state_id_waiting);
+
+        if($quote_form->isSubmitted() && $quote_form->isValid()) {
+            $quote->setCreatedAt(new \DateTime());
+            $quote->setState($waiting_state);
+            $quote->setUser($user);
+            $entityManager->persist($quote); // tell Doctrine you want to (eventually) save the Product (no queries yet)
+            $entityManager->flush();
+
+            return $this->redirectToRoute('ask_a_quote_miniatures_group_form', ['quote_id' => $quote->getId()]);
+        }
+
+        // $form = $this->createForm(TaskType::class, $quote);
+
+        return $this->render('ask_a_quote/quote_form.html.twig', [
+            'quoteForm' => $quote_form->createView()
+        ]);
+    }
+    /**
+     * @Route("/ask-a-quote/miniatures-group-form/{quote_id}", name="ask_a_quote_miniatures_group_form")
+     */
+    public function newMiniaturesGroups(Request $request, $quote_id): Response 
+    {
+        return $this->render('ask_a_quote/miniatures_group_form');
+    }
+
+    
+    
 }

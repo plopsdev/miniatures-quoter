@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(quoteForm) }}
+
+    
+        
+    {{ form_row(quoteForm.name, {
+        'attr': {
+            'placeholder':"Nom de de la commande"
+        }
+    }) }}
+    
+    {{ form_row(quoteForm.colorScheme, {
+        'attr': {
+            'placeholder':"Schéma de couleur"
+        }
+    }) }}
+    
+
+    <button type="submit"> Ajouter la commande </button> 
+
+    {{ form_end(quoteForm) }}
+
+{% endblock %}

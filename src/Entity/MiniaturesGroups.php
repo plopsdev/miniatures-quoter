@@ -18,19 +18,19 @@ class MiniaturesGroups
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=quotes::class, inversedBy="miniaturesGroups")
+     * @ORM\ManyToOne(targetEntity=Quotes::class, inversedBy="miniaturesGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $quote;
 
     /**
-     * @ORM\OneToOne(targetEntity=scales::class, inversedBy="miniaturesGroups", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Scales::class, inversedBy="miniaturesGroups", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $scale;
 
     /**
-     * @ORM\OneToOne(targetEntity=qualities::class, inversedBy="miniaturesGroups", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Qualities::class, inversedBy="miniaturesGroups", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $quality;

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(userForm) }}
+
+    
+        
+    {{ form_row(userForm.name, {
+        'attr': {
+            'placeholder':"Votre nom"
+        }
+    }) }}
+    
+    {{ form_row(userForm.mail, {
+        'attr': {
+            'placeholder':"Votre adresse email"
+        }
+    }) }}
+    
+
+    <button type="submit"> Ajouter l'utilisateur </button> 
+
+    {{ form_end(userForm) }}
+
+{% endblock %}
