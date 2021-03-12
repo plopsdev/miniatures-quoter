@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\MiniaturesGroups;
 use App\Entity\Quotes;
 use App\Entity\Users;
 use App\Entity\States;
@@ -13,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Form\Type\QuoteType;
 use App\Form\Type\UserType;
+use App\Form\Type\MiniaturesGroupType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,14 +54,13 @@ class AskAQuoteController extends AbstractController
     public function newQuote(Request $request, $user_id): Response
     {   
         $quote = new Quotes();
-        $state_id_waiting = 1; //correspond à l'idée du state "waiting" -> à reformater différemment
         
         $quote_form = $this->createForm(QuoteType::class, $quote);
         
         $quote_form->handleRequest($request);
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(Users::class)->find($user_id); //récupère l'user grâce à l'ID passée par l'action précédente (plus haute)
-        $waiting_state = $entityManager->getRepository(States::class)->find($state_id_waiting);
+        $waiting_state = $entityManager->getRepository(States::class)->find(1);
 
         if($quote_form->isSubmitted() && $quote_form->isValid()) {
             $quote->setCreatedAt(new \DateTime());
@@ -82,7 +83,16 @@ class AskAQuoteController extends AbstractController
      */
     public function newMiniaturesGroups(Request $request, $quote_id): Response 
     {
-        return $this->render('ask_a_quote/miniatures_group_form');
+        $miniatures_group = new MiniaturesGroups();
+        $miniatures_group_form = $this->createForm(MiniaturesGroupType::class, $miniatures_group);
+
+        $miniatures_group_form->handleRequest($request);
+        $entityManager = $this->getDoctrine()->getManager();
+        $quote = $entityManager->getRepository(Users::class)->find($quote_id);
+        
+        return $this->render('ask_a_quote/miniatures_group_form.html.twig', [
+            'miniaturesGroupForm' => $miniatures_group_form->createView()
+        ]);
     }
 
     

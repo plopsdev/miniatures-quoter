@@ -26,12 +26,6 @@ class Quotes
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity=States::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $state;
-
-    /**
      * @ORM\Column(type="string", length=64)
      */
     private $name;
@@ -50,6 +44,12 @@ class Quotes
      * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="quote")
      */
     private $miniaturesGroups;
+
+    /**
+     * @ORM\OneToOne(targetEntity=States::class, inversedBy="quotes", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $state;
 
     public function __construct()
     {
@@ -73,17 +73,6 @@ class Quotes
         return $this;
     }
 
-    public function getState(): ?states
-    {
-        return $this->state;
-    }
-
-    public function setState(states $state): self
-    {
-        $this->state = $state;
-
-        return $this;
-    }
 
     public function getName(): ?string
     {
@@ -147,6 +136,18 @@ class Quotes
                 $miniaturesGroup->setQuote(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getState(): ?States
+    {
+        return $this->state;
+    }
+
+    public function setState(States $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
