@@ -17,12 +17,14 @@
         }) }}
         {{ form_row(miniaturesGroupForm.brand, {
             'attr': {
-                'placeholder':"Votre commentaire"
+                'placeholder':"Marque"
             }
         }) }}
+
+        {{ form_row(miniaturesGroupForm.quality) }}
         
 
-        <button type="submit"> Ajouter l'utilisateur </button> 
+        <button type="submit"> Ajouter </button> 
 
     {{ form_end(miniaturesGroupForm) }}
 
