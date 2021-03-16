@@ -3,6 +3,7 @@
 namespace App\Form\Type;
 
 use App\Entity\Qualities;
+use App\Entity\Scales;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -19,7 +20,7 @@ class MiniaturesGroupType extends AbstractType
             ->add('brand')
             ->add('quantity')
             ->add('scale', EntityType::class, [
-                'class' => Qualities::class,
+                'class' => Scales::class,
                 'choice_label' => 'name'
             ])
             ->add('quality', EntityType::class, [

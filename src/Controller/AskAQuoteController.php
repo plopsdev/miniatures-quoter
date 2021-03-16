@@ -88,14 +88,25 @@ class AskAQuoteController extends AbstractController
 
         $miniatures_group_form->handleRequest($request);
         $entityManager = $this->getDoctrine()->getManager();
-        $quote = $entityManager->getRepository(Users::class)->find($quote_id);
-        // if($miniatures_group_form->isSubmitted() && $miniatures_group_form->isValid()){
+        $quote = $entityManager->getRepository(Quotes::class)->find($quote_id);
+        if($miniatures_group_form->isSubmitted() && $miniatures_group_form->isValid()){
+            $miniatures_group->setQuote($quote);
+            $entityManager->persist($miniatures_group);
+            $entityManager->flush();
 
-        // }
+            return $this->redirectToRoute('ask_a_quote_confirmation');
+        }
         
         return $this->render('ask_a_quote/miniatures_group_form.html.twig', [
             'miniaturesGroupForm' => $miniatures_group_form->createView()
         ]);
+    }
+    /**
+     * @Route("/ask-a-quote/confirmation", name="ask_a_quote_confirmation")
+     */
+    public function quoteConfirmation(Request $request): Response
+    {
+        return $this->render('ask_a_quote/confirmation.html.twig');
     }
 
     
