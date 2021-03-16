@@ -18,7 +18,7 @@ class Users
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Quotes::class, mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Quotes::class, mappedBy="user")
      */
     private $quotes;
 

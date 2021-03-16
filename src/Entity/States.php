@@ -21,9 +21,9 @@ class States
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
+    
     /**
-     * @ORM\OneToOne(targetEntity=Quotes::class, mappedBy="state", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Quotes::class, mappedBy="state")
      */
     private $quotes;
 

@@ -89,6 +89,9 @@ class AskAQuoteController extends AbstractController
         $miniatures_group_form->handleRequest($request);
         $entityManager = $this->getDoctrine()->getManager();
         $quote = $entityManager->getRepository(Users::class)->find($quote_id);
+        // if($miniatures_group_form->isSubmitted() && $miniatures_group_form->isValid()){
+
+        // }
         
         return $this->render('ask_a_quote/miniatures_group_form.html.twig', [
             'miniaturesGroupForm' => $miniatures_group_form->createView()

@@ -16,9 +16,9 @@ class Qualities
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
-     * @ORM\OneToOne(targetEntity=MiniaturesGroups::class, mappedBy="quality", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="quality")
      */
     private $miniaturesGroups;
 

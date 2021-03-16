@@ -20,7 +20,7 @@ class Quotes
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Users::class, inversedBy="quotes", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="quotes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -44,9 +44,8 @@ class Quotes
      * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="quote")
      */
     private $miniaturesGroups;
-
     /**
-     * @ORM\OneToOne(targetEntity=States::class, inversedBy="quotes", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=States::class, inversedBy="quotes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $state;

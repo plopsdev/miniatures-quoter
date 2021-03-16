@@ -4,24 +4,40 @@
 
     {{ form_start(miniaturesGroupForm) }}
         
-        {{ form_row(miniaturesGroupForm.quantity, {
+        {{ form_row(miniaturesGroupForm.name, {
             'attr': {
-                'placeholder':"1"
+                'placeholder':"Nom de l'unité"
             }
         }) }}
-        
-        {{ form_row(miniaturesGroupForm.comment, {
-            'attr': {
-                'placeholder':"Votre commentaire"
-            }
-        }) }}
+
         {{ form_row(miniaturesGroupForm.brand, {
             'attr': {
                 'placeholder':"Marque"
             }
         }) }}
 
+        {{ form_row(miniaturesGroupForm.quantity, {
+            'attr': {
+                'placeholder':"1"
+            }
+        }) }}
+        
+        {{ form_row(miniaturesGroupForm.scale) }}
+
         {{ form_row(miniaturesGroupForm.quality) }}
+
+        {{ form_row(miniaturesGroupForm.wantBuilt) }}
+
+        {{ form_row(miniaturesGroupForm.comment, {
+            'attr': {
+                'placeholder':"Votre commentaire"
+            }
+        }) }}
+        
+
+        
+
+        
         
 
         <button type="submit"> Ajouter </button> 

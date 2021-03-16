@@ -16,9 +16,9 @@ class Scales
      * @ORM\Column(type="integer")
      */
     private $id;
-
+    
     /**
-     * @ORM\OneToOne(targetEntity=MiniaturesGroups::class, mappedBy="scale", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="scale")
      */
     private $miniaturesGroups;
 

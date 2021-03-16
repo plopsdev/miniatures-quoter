@@ -24,13 +24,13 @@ class MiniaturesGroups
     private $quote;
 
     /**
-     * @ORM\OneToOne(targetEntity=Scales::class, inversedBy="miniaturesGroups", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Scales::class, inversedBy="miniaturesGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $scale;
 
     /**
-     * @ORM\OneToOne(targetEntity=Qualities::class, inversedBy="miniaturesGroups", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Qualities::class, inversedBy="miniaturesGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $quality;
