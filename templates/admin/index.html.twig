@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block body %}
 
+{% for quote in quotes %}
 
+    <h1>{{ quote.name }}</h1> {# essaye d'accéder à la propriété privée mais n'y arrive pas, du coup utilise la méthode getName() #}
+    <h3>{{ quote.createdAt | date('d/m/Y') }}</h3>
+    <a href="{{ path('admin_details', {'quote_id': quote.id}) }}">Détails</a>
+{% endfor %}
+
+{% endblock %}
 

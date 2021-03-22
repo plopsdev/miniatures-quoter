@@ -104,7 +104,7 @@ class AskAQuoteController extends AbstractController
     /**
      * @Route("/ask-a-quote/confirmation", name="ask_a_quote_confirmation")
      */
-    public function quoteConfirmation(Request $request): Response
+    public function quoteConfirmation(): Response
     {
         return $this->render('ask_a_quote/confirmation.html.twig');
     }
