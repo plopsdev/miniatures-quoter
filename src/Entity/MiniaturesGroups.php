@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MiniaturesGroupsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MiniaturesGroupsRepository::class)
@@ -47,16 +48,19 @@ class MiniaturesGroups
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Assert\Length(min=5, max=32)
      */
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=255)
      */
     private $comment;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max=255)
      */
     private $name;
 
