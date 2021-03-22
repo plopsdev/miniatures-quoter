@@ -2,7 +2,42 @@
 
 {% block body %}
 
-    <h1>détails de la quote : </h1>
-    <h2>{{ quote.name }} </h2>
+    <h1>{{ quote.name}} </h1>
+    <span>{{ quote.state.name }}</span>
+    <span>{{ quote.createdAt | date('d/m/Y') }}</span>
+    <h2>Devis</h2>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="1">Nom</th>
+                <th colspan="1">Marque</th>
+                <th colspan="1">Nombre</th>
+                <th colspan="1">Échelle</th>
+                <th colspan="1">Qualité</th>
+                <th colspan="1">Montage</th>
+                <th colspan="1">Commentaire</th>
+                {# <th colspan="1">Prix<th> #}
+            </tr>
+        </thead>
+        <tbody>
+            {% for miniaturesGroup in quote.miniaturesGroups %}
+            <tr>
+                <td>{{miniaturesGroup.name}}</td>
+                <td>{{miniaturesGroup.brand}}</td>
+                <td>{{miniaturesGroup.quantity}}</td>
+                <td>{{miniaturesGroup.scale.name}}</td>
+                <td>{{miniaturesGroup.quality.name}}</td>
+                <td>{{miniaturesGroup.wantBuilt ? 'Oui' : 'Non'}}</td>
+                <td>{{miniaturesGroup.comment}}</td>
+                {# <td>{{miniaturesGroup}}</td> #}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Schéma de couleur</h2>
+    <p>{{ quote.colorScheme }}</p>
+    <h2>Contact</h2>
+    <strong>Nom et prénom</strong> : <span>{{quote.user.name}}</span></br>
+    <strong>Adresse email</strong> : <span>{{quote.user.mail}}</span>
 
 {% endblock %}

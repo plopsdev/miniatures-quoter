@@ -27,8 +27,10 @@ class AdminController extends AbstractController
     public function details($quote_id): Response
     {
         $quote = $this->getDoctrine()->getRepository(Quotes::class)->find($quote_id);
+        // $state = $quote->getState(); -> on peut directement faire l'opération sur le fichier twig
         return $this->render('admin/details.html.twig', [
-            'quote' => $quote
+            'quote' => $quote,
+            // 'state' => $state
         ]);
     }
 }
