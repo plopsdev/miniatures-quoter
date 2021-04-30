@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MiniaturesGroupsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=MiniaturesGroupsRepository::class)
@@ -15,6 +16,7 @@ class MiniaturesGroups
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("quotes_by_id:read")
      */
     private $id;
 
@@ -27,40 +29,47 @@ class MiniaturesGroups
     /**
      * @ORM\ManyToOne(targetEntity=Scales::class, inversedBy="miniaturesGroups")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("quotes_by_id:read")
      */
     private $scale;
 
     /**
      * @ORM\ManyToOne(targetEntity=Qualities::class, inversedBy="miniaturesGroups")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("quotes_by_id:read")
      */
     private $quality;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("quotes_by_id:read")
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("quotes_by_id:read")
      */
     private $wantBuilt;
 
     /**
      * @ORM\Column(type="string", length=32)
      * @Assert\Length(min=5, max=32)
+     * @Groups("quotes_by_id:read")
      */
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Length(max=255)
+     * @Groups("quotes_by_id:read")
      */
     private $comment;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(max=255)
+     * @Groups("quotes_by_id:read")
      */
     private $name;
 

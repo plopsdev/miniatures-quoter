@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UsersRepository::class)
@@ -15,6 +16,7 @@ class Users
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("quotes:read")
      */
     private $id;
 
@@ -26,12 +28,14 @@ class Users
     /**
      * @ORM\Column(type="string", length=32)
      * @Assert\Length(min=5, max=32)
+     * @Groups("quotes:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=32)
      * @Assert\Email
+     * @Groups("quotes:read")
      */
     private $mail;
 

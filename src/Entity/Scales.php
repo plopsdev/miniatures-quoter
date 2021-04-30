@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ScalesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=ScalesRepository::class)
@@ -14,6 +15,7 @@ class Scales
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("quotes_by_id:read")
      */
     private $id;
     
@@ -24,16 +26,19 @@ class Scales
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Groups("quotes_by_id:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("quotes_by_id:read")
      */
     private $paintPrice;
 
     /**
      * @ORM\Column(type="integer")
+     * @Groups("quotes_by_id:read")
      */
     private $buildPrice;
 

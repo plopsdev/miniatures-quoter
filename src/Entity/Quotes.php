@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=QuotesRepository::class)
@@ -17,39 +18,46 @@ class Quotes
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("quotes:read")
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="quotes")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("quotes:read")
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=64)
      * @Assert\Length(min=5, max=64)
+     * @Groups("quotes:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("quotes:read")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=512)
      * @Assert\Length(max=64)
+     * @Groups("quotes:read")
      */
     private $colorScheme;
 
     /**
      * @ORM\OneToMany(targetEntity=MiniaturesGroups::class, mappedBy="quote")
+     * @Groups("quotes_by_id:read")
      */
     private $miniaturesGroups;
     /**
      * @ORM\ManyToOne(targetEntity=States::class, inversedBy="quotes")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("quotes:read")
      */
     private $state;
 

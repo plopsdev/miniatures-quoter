@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\QualitiesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=QualitiesRepository::class)
@@ -14,6 +15,7 @@ class Qualities
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("quotes_by_id:read")
      */
     private $id;
     
@@ -24,11 +26,13 @@ class Qualities
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Groups("quotes_by_id:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups("quotes_by_id:read")
      */
     private $priceMultiplier;
 

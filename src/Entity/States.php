@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\StatesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=StatesRepository::class)
@@ -14,11 +15,13 @@ class States
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("quotes:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("quotes:read")
      */
     private $name;
     

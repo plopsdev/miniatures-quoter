@@ -40,7 +40,7 @@ class AskAQuoteController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('ask_a_quote_quote_form', ['user_id' => $user->getId()]); // ce qui est passé dans l'url
+            return $this->redirectToRoute('ask_a_quote_quote_form', ['user_id' => $user->getId()]); // ce qu'on passe dans l'url
         }
 
         return $this->render('ask_a_quote/user_form.html.twig', [
