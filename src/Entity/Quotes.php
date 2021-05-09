@@ -25,7 +25,7 @@ class Quotes
     /**
      * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="quotes")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups("quotes:read")
+     * @Groups("quotes_by_id:read")
      */
     private $user;
 
@@ -45,7 +45,7 @@ class Quotes
     /**
      * @ORM\Column(type="string", length=512)
      * @Assert\Length(max=64)
-     * @Groups("quotes:read")
+     * @Groups("quotes_by_id:read")
      */
     private $colorScheme;
 

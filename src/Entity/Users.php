@@ -16,7 +16,7 @@ class Users
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("quotes:read")
+     * @Groups("quotes_by_id:read")
      */
     private $id;
 
@@ -28,14 +28,14 @@ class Users
     /**
      * @ORM\Column(type="string", length=32)
      * @Assert\Length(min=5, max=32)
-     * @Groups("quotes:read")
+     * @Groups("quotes_by_id:read")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=32)
      * @Assert\Email
-     * @Groups("quotes:read")
+     * @Groups("quotes_by_id:read")
      */
     private $mail;
 
