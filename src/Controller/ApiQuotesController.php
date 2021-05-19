@@ -40,9 +40,64 @@ class ApiQuotesController extends AbstractController
      * @Route("/api/scales", name="api_quotes_scales", methods={"GET"})
      */
     public function getScales(ScalesRepository $scalesRepository)
-    {
-        
+    {  
         return $this->json($scalesRepository->findAll(), 200, [], ['groups' => "scales-qualities:read"]);
+    }
+    /**
+     * @Route("/api/scales/{id}", name="api_scale_get", methods={"GET"})
+     */
+    public function getScale(ScalesRepository $scalesRepository, $id)
+    {
+        return $this->json($scalesRepository->find($id), 200, [], ['groups' => "scales-qualities:read"]);
+    }
+    /**
+     * @Route("/api/scales", name="api_scales_post", methods={"POST"})
+     */
+    public function addScale(Request $request, SerializerInterface $serializer){
+        $data = json_decode($request->getContent());
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $scale = new Scales();
+        $scale->setName($data->name);
+        $scale->setPaintPrice($data->paintPrice);
+        $scale->setBuildPrice($data->buildPrice);
+
+        $entityManager->persist($scale);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => "ok"], 201);
+    }
+    /**
+     * @Route("/api/scales/{id}", name="api_scales_put", methods={"OPTIONS", "PUT"})
+     */
+    public function editScale(Request $request, SerializerInterface $serialize, $id){
+        $data = json_decode($request->getContent());
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $scale = $entityManager->getRepository(Scales::class)->find($id);
+
+        $scale->setName($data->name);
+        $scale->setPaintPrice($data->paintPrice);
+        $scale->setBuildPrice($data->buildPrice);
+
+        $entityManager->persist($scale);
+        $entityManager->flush();
+
+        return new JsonResponse(['message' => "ok"], 201);
+    }
+    /**
+     * @Route("/api/scales/{id}", name="api_scales_delete", methods={"DELETE"})
+     */
+    public function removeScale($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $scale = $entityManager->getRepository(Scales::class)->find($id); //on récupère la quote pour pouvoir proprement supprimer ses dépendances
+
+        $entityManager->remove($scale);
+        $entityManager->flush();
+        return new JsonResponse(['message' => "deleted successfuly"], 204);
     }
     /**
      * @Route("/api/qualities", name="api_quotes_qualities", methods={"GET"})
@@ -59,52 +114,50 @@ class ApiQuotesController extends AbstractController
 
         $entityManager = $this->getDoctrine()->getManager();
         
-            $user = new Users();
-            $user->setName($data->user->name);
-            $user->setMail($data->user->mail);
-            //persist the object so it can be used later
-            $entityManager->persist($user);
-            
-            $quote = new Quotes();
-            //retrieve the state object with the state_id in the json file
-            $state = $entityManager->getRepository(States::class)->find($data->state_id);
-            //complete the "simple" fields with what's on the json
-            $quote->setColorScheme($data->colorScheme);
-            $quote->setName($data->name);
-            $quote->setCreatedAt(new \DateTime());
-            //complete the "complex" field with the object found with the id's
-            $quote->setState($state);
-            $quote->setUser($user);
-
-            $entityManager->persist($quote);
-            //put the array in a variable so it can be foreach
-            $miniatures_groups = $data->miniaturesGroups;
-            
-            foreach($miniatures_groups as $group){
-                //for every miniature_group in miniatur_groups, create an instance of miniaturesGroups with what you can find in the data, and set the quote with the one that's just been created
-                $miniatures_group = new MiniaturesGroups();
-
-                $miniatures_group->setBrand($group->brand);
-                $miniatures_group->setComment($group->comment);
-                $miniatures_group->setName($group->name);
-                $miniatures_group->setQuantity($group->quantity);
-                $miniatures_group->setWantBuilt($group->wantBuilt);
-
-                $quality = $entityManager->getRepository(Qualities::class)->find($group->quality_id);
-                $scale = $entityManager->getRepository(Scales::class)->find($group->scale_id);
-
-                $miniatures_group->setQuality($quality);
-                $miniatures_group->setScale($scale);
-                $miniatures_group->setQuote($quote);
-
-                $entityManager->persist($miniatures_group);
-            }
-            //send the data to the db
-            $entityManager->flush();
-            return new JsonResponse(['message' => "ok"], 201);
-
+        $user = new Users();
+        $user->setName($data->user->name);
+        $user->setMail($data->user->mail);
+        //persist the object so it can be used later
+        $entityManager->persist($user);
         
+        $quote = new Quotes();
+        //retrieve the state object with the state_id in the json file
+        $state = $entityManager->getRepository(States::class)->find($data->state_id);
+        //complete the "simple" fields with what's on the json
+        $quote->setColorScheme($data->colorScheme);
+        $quote->setName($data->name);
+        $quote->setCreatedAt(new \DateTime());
+        //complete the "complex" field with the object found with the id's
+        $quote->setState($state);
+        $quote->setUser($user);
+
+        $entityManager->persist($quote);
+        //put the array in a variable so it can be foreach
+        $miniatures_groups = $data->miniaturesGroups;
         
+        foreach($miniatures_groups as $group){
+            //for every miniature_group in miniatur_groups, create an instance of miniaturesGroups with what you can find in the data, and set the quote with the one that's just been created
+            $miniatures_group = new MiniaturesGroups();
+
+            $miniatures_group->setBrand($group->brand);
+            $miniatures_group->setComment($group->comment);
+            $miniatures_group->setName($group->name);
+            $miniatures_group->setQuantity($group->quantity);
+            $miniatures_group->setWantBuilt($group->wantBuilt);
+
+            $quality = $entityManager->getRepository(Qualities::class)->find($group->quality_id);
+            $scale = $entityManager->getRepository(Scales::class)->find($group->scale_id);
+
+            $miniatures_group->setQuality($quality);
+            $miniatures_group->setScale($scale);
+            $miniatures_group->setQuote($quote);
+
+            $entityManager->persist($miniatures_group);
+        }
+        //send the data to the db
+        $entityManager->flush();
+        return new JsonResponse(['message' => "ok"], 201);
+
         //create a new user and set the name and mail with what's on the json
         
         //on peut personaliser ce qu'on envoie, on pourrait par exemple renvoyer l'objet qu'on vient de créer en json (voir video 33:00)
