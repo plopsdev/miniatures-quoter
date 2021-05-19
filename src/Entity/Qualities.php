@@ -15,7 +15,7 @@ class Qualities
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $id;
     
@@ -26,13 +26,13 @@ class Qualities
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $priceMultiplier;
 

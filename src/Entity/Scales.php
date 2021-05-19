@@ -15,7 +15,7 @@ class Scales
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $id;
     
@@ -26,19 +26,19 @@ class Scales
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $paintPrice;
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups("quotes_by_id:read")
+     * @Groups({"quotes_by_id:read", "scales-qualities:read"})
      */
     private $buildPrice;
 

@@ -8,8 +8,11 @@ use App\Entity\Quotes;
 use App\Entity\Scales;
 use App\Entity\States;
 use App\Entity\Users;
+use App\Repository\QualitiesRepository;
 use App\Repository\QuotesRepository;
+use App\Repository\ScalesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +21,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ApiQuotesController extends AbstractController
 {
+    
     /**
      * @Route("/api/quotes", name="api_quotes_get", methods={"GET"})
      */
@@ -33,15 +37,29 @@ class ApiQuotesController extends AbstractController
         return $this->json($quotesRepository->find($id), 200, [], ['groups' => ['quotes:read', 'quotes_by_id:read']]);
     }
     /**
+     * @Route("/api/scales", name="api_quotes_scales", methods={"GET"})
+     */
+    public function getScales(ScalesRepository $scalesRepository)
+    {
+        
+        return $this->json($scalesRepository->findAll(), 200, [], ['groups' => "scales-qualities:read"]);
+    }
+    /**
+     * @Route("/api/qualities", name="api_quotes_qualities", methods={"GET"})
+     */
+    public function getQualities(QualitiesRepository $qualitiesRepository)
+    {
+        return $this->json($qualitiesRepository->findAll(), 200, [], ['groups' => "scales-qualities:read"]);
+    }
+    /**
      * @Route("/api/quotes", name="api_quotes_post", methods={"POST"})
      */
     public function addQuote(Request $request, SerializerInterface $serializer){
-        $data = json_decode($request->getContent());
+        $data = json_decode($request->getContent()); 
 
         $entityManager = $this->getDoctrine()->getManager();
-        try {
+        
             $user = new Users();
-
             $user->setName($data->user->name);
             $user->setMail($data->user->mail);
             //persist the object so it can be used later
@@ -82,15 +100,10 @@ class ApiQuotesController extends AbstractController
                 $entityManager->persist($miniatures_group);
             }
             //send the data to the db
-            // $entityManager->flush();
-            return new Response('ok', 201);
+            $entityManager->flush();
+            return new JsonResponse(['message' => "ok"], 201);
 
-        } catch(NotEncodableValueException $e){
-            return $this->json([
-                'status'=>400,
-                'message'=> $e->getMessage()
-            ], 400);
-        }
+        
         
         //create a new user and set the name and mail with what's on the json
         
@@ -100,7 +113,7 @@ class ApiQuotesController extends AbstractController
     }
     
     /**
-     * @Route("/api/quotes/{id}", name="updateQuoteState", methods={"PUT"})
+     * @Route("/api/quotes/{id}", name="updateQuoteState", methods={"OPTIONS", "PUT"})
      */
     public function updateQuoteState(Request $request, $id){
         $data = json_decode($request->getContent());
@@ -119,10 +132,10 @@ class ApiQuotesController extends AbstractController
         
         $entityManager->flush();
 
-        return new Response('ok', 201);
+        return new JsonResponse(['message' => "ok"], 201);
     }
     /**
-     * @Route("/api/quotes/{id}", name="updateQuoteState", methods={"DELETE"})
+     * @Route("/api/quotes/{id}", name="deleteQuote", methods={"DELETE"})
      */
     public function removeQuote($id)
     {
@@ -137,6 +150,6 @@ class ApiQuotesController extends AbstractController
 
         $entityManager->remove($quote);
         $entityManager->flush();
-        return new Response("ok");
+        return new JsonResponse(['message' => "deleted successfuly"], 204);
     }
 }

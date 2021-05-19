@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\MiniaturesGroupsRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MiniaturesGroupsRepository::class)
